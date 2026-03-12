@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liquid Snake</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="welcome-active">
+  <section id="welcomeScreen" class="welcome-screen" aria-label="欢迎页面">
+    <div class="welcome-orb welcome-orb-a"></div>
+    <div class="welcome-orb welcome-orb-b"></div>
+    <div class="welcome-card glass-card">
+      <p class="eyebrow">Welcome / Liquid Snake</p>
+      <h1>欢迎来到 Liquid Snake</h1>
+      <p class="welcome-text">
+        一款带液态玻璃质感的贪吃蛇小游戏。你可以切换难度、自由决定是否穿墙，
+        还要抓住随机出现、限时消失的 bonus 光球。
+      </p>
+      <div class="welcome-feature-row">
+        <span class="welcome-chip">4 档难度</span>
+        <span class="welcome-chip">穿墙切换</span>
+        <span class="welcome-chip">限时 Bonus</span>
+      </div>
+      <div class="welcome-actions">
+        <button id="welcomeEnterButton" class="primary-btn">进入游戏</button>
+      </div>
+      <p class="welcome-hint">按 Enter / 空格进入，或直接按方向键立即开局。</p>
+    </div>
+  </section>
+
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+  <div class="noise"></div>
+
+  <main class="app-shell">
+    <section class="hero glass-card">
+      <div class="hero-copy">
+        <p class="eyebrow">Arcade / Glassmorphism</p>
+        <h2 class="hero-title">Liquid Snake</h2>
+        <p class="hero-text">
+          经典贪吃蛇，换上一层更通透、更有流动感的液态玻璃外观，
+          现在还支持难度切换、穿墙模式和限时随机 bonus。
+        </p>
+      </div>
+      <div class="hero-actions">
+        <button id="startButton" class="primary-btn">开始游戏</button>
+        <button id="pauseButton" class="ghost-btn">暂停</button>
+      </div>
+    </section>
+
+    <section class="dashboard">
+      <aside class="glass-card side-panel">
+        <div class="stat-grid">
+          <article class="stat-card">
+            <span class="stat-label">分数</span>
+            <strong id="scoreValue" class="stat-value">0</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">最高分</span>
+            <strong id="bestValue" class="stat-value">0</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">速度</span>
+            <strong id="speedValue" class="stat-value">1x</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">难度</span>
+            <strong id="difficultyValue" class="stat-value">新手</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">穿墙</span>
+            <strong id="tunnelValue" class="stat-value">开启</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">BONUS</span>
+            <strong id="bonusValue" class="stat-value">待命</strong>
+          </article>
+        </div>
+
+        <div class="settings-panel">
+          <div class="settings-header">
+            <h2>难度设置</h2>
+            <p>难度越高，蛇越快，普通食物和 bonus 分值也越高。</p>
+          </div>
+
+          <div class="difficulty-grid" aria-label="难度选择">
+            <button class="difficulty-btn is-active" data-difficulty="beginner">新手</button>
+            <button class="difficulty-btn" data-difficulty="easy">简单</button>
+            <button class="difficulty-btn" data-difficulty="normal">普通</button>
+            <button class="difficulty-btn" data-difficulty="hard">困难</button>
+          </div>
+
+          <label class="toggle-row" for="tunnelToggle">
+            <div>
+              <span class="toggle-title">穿墙模式</span>
+              <p id="tunnelHint" class="toggle-text">新手默认开启，也可以随时手动关闭。</p>
+            </div>
+            <span class="toggle-switch">
+              <input id="tunnelToggle" type="checkbox" checked>
+              <span class="toggle-slider"></span>
+            </span>
+          </label>
+        </div>
+
+        <div class="tips compact-card">
+          <h2>操作</h2>
+          <p>方向键 / WASD 控制移动</p>
+          <p>空格键暂停或继续</p>
+          <p>手机上可点击方向按钮或在棋盘上滑动</p>
+          <p>随机 bonus 球会限时出现，错过就会消失</p>
+        </div>
+
+        <div class="touch-panel compact-card">
+          <p class="touch-title">触控方向</p>
+          <div class="control-pad" aria-label="触控方向键">
+            <button class="control-btn up" data-direction="up" aria-label="向上">▲</button>
+            <button class="control-btn left" data-direction="left" aria-label="向左">◀</button>
+            <button class="control-btn right" data-direction="right" aria-label="向右">▶</button>
+            <button class="control-btn down" data-direction="down" aria-label="向下">▼</button>
+          </div>
+        </div>
+      </aside>
+
+      <section class="glass-card board-panel">
+        <div class="board-topbar">
+          <div>
+            <p class="eyebrow">Realtime Board</p>
+            <h2>保持节奏，别急转弯</h2>
+          </div>
+          <div class="indicator-cluster">
+            <div id="bonusBadge" class="bonus-badge is-idle">Bonus 待命</div>
+            <div id="badgeText" class="badge">Ready</div>
+          </div>
+        </div>
+
+        <div id="boardFrame" class="board-frame">
+          <canvas id="gameCanvas" width="576" height="576" aria-label="贪吃蛇游戏画布"></canvas>
+          <div id="overlay" class="overlay">
+            <div class="overlay-card">
+              <p class="overlay-kicker">Liquid Snake</p>
+              <h3 id="overlayTitle">准备开始</h3>
+              <p id="overlayText">当前为新手难度，穿墙模式默认开启。点击“开始游戏”或按方向键立即进入。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>
